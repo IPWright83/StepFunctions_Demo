@@ -35,7 +35,14 @@ stepFunctions:
             Type: Task
             Resource:
               Fn::GetAtt: [double, Arn]
-            Next: Counter
+            Next: IsBigNumber
+          IsBigNumber:
+            Type: Choice
+            Choices:
+              - Variable: $
+                NumericGreaterThan: 100
+                Next: Pass
+            Default: Counter
           Counter:
             Type: Task
             Resource:
