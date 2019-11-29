@@ -9,8 +9,10 @@ provider:
   region: eu-west-1
 
 functions:
-  hello:
-    handler: handler.hello
+  add:
+    handler: handler.add
+  double:
+    handler: handler.double
 
 stepFunctions:
   stateMachines:
@@ -18,10 +20,15 @@ stepFunctions:
       name: hello
       definition:
         Comment: hello world example
-        StartAt: SayHello
+        StartAt: Add
         States:
-          SayHello:
+          Add:
             Type: Task
             Resource:
-              Fn::GetAtt: [hello, Arn]
+              Fn::GetAtt: [add, Arn]
+            Next: Double
+          Double:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [double, Arn]
             End: true
