@@ -47,10 +47,26 @@ stepFunctions:
             Type: Task
             Resource:
               Fn::GetAtt: [counter, Arn]
-            Next: Thrower
+            Next: Parallel
             Retry:
               - ErrorEquals: [States.ALL]
                 MaxAttempts: 3
+          Parallel:
+            Type: Parallel
+            Next: Thrower
+            Branches:
+              - StartAt: Wait5S
+                States:
+                  Wait5S:
+                    Type: Wait
+                    Seconds: 5
+                    End: true
+              - StartAt: Wait20S
+                States:
+                  Wait20S:
+                    Type: Wait
+                    Seconds: 20
+                    End: true
           Thrower:
             Type: Task
             Resource:
