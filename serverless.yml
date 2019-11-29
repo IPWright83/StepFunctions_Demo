@@ -13,6 +13,8 @@ functions:
     handler: handler.add
   double:
     handler: handler.double
+  counter:
+    handler: handler.counter
 
 stepFunctions:
   stateMachines:
@@ -31,4 +33,12 @@ stepFunctions:
             Type: Task
             Resource:
               Fn::GetAtt: [double, Arn]
+            Next: Counter
+          Counter:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [counter, Arn]
             End: true
+            Retry:
+              - ErrorEquals: [States.ALL]
+                MaxAttempts: 3
