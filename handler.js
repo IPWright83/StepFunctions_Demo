@@ -7,3 +7,7 @@ module.exports.counter = async n => {
     if (++counter > 2) return n;
     throw new Error(`Counter value is only ${counter}`);
 }
+
+module.exports.thrower = async => {
+    throw new Error("Gandalf: You Shalt not Pass!");
+}
