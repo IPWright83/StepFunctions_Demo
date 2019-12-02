@@ -1,3 +1,3 @@
-module.exports.hello = async name => {
+module.exports.hello = async ({ name }) => {
   return `Hello ${name}`
 };
